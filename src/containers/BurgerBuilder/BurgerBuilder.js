@@ -28,7 +28,7 @@
             },
             totalPrice: 4,
             purchaseable: false,
-            purchaising: false,
+            purchasing: false,
             loading: false
 
         }
@@ -76,11 +76,11 @@
         }
 
         purchaseHandler = () => {
-            this.setState({ purchaising: true })
+            this.setState({ purchasing: true })
         }
 
-        purchaiseCancelHandler = () =>{
-            this.setState({ purchaising: false })
+        purchaseCancelHandler = () =>{
+            this.setState({ purchasing: false })
         }
 
         purchaiseContinueHandler = () => {
@@ -101,8 +101,9 @@
                 deliveryMethod: 'fastest'
             }
             
-            axios.post('/orders.json',order)
+            axios.post('/orders.json', order)
                 .then(response => {
+                    console.log("hiii");
                     this.setState({ loading: false, purchasing: false });
                 })
                 .catch(error => {
@@ -130,7 +131,7 @@
             }
             return (
                 <React.Fragment>
-                    <Modal  show={this.state.purchaising} 
+                    <Modal  show={this.state.purchasing} 
                             modalClosed={this.purchaiseCancelHandler}>
                         {orderSummary}
                     </Modal>
