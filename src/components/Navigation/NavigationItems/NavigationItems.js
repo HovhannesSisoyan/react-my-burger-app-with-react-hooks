@@ -7,12 +7,12 @@
         <ul className={classes.NavigationItems}>
             <NavigationItem
                 link="/"
-                active>
+                exact>
                 BurgerBuilder
             </NavigationItem>
             <NavigationItem
-                link="/">
-                Checkout
+                link="/orders">
+                Orders
             </NavigationItem>
         </ul>
     );
