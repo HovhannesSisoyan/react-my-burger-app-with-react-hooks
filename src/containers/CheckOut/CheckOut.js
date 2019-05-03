@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 
 import ContactData from '../CheckOut/ContactData/ContactData';
 import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSummary';
+import * as actions from '../../store/actions/index';
 
 class CheckOut extends React.Component {
+
  
 
     checkOutCancelledHandler = () => {
@@ -19,8 +21,10 @@ class CheckOut extends React.Component {
     render () {
         let summary = <Redirect to="/"/>
         if(this.props.ings) {
+            const purchaseRedirect = this.props.purchased ? <Redirect to="/" /> : null;
             summary = (
                 <div>
+                    {purchaseRedirect}
                     <CheckOutSummary 
                         ingredients={this.props.ings}
                         checkOutCancelled={this.checkOutCancelledHandler}
@@ -35,10 +39,12 @@ class CheckOut extends React.Component {
     }
 }
 
-const mapStateToProps =state => {
+const mapStateToProps = state => {
     return {
-        ings: state.burgerBuilder.ingredients
+        ings: state.burgerBuilder.ingredients,
+        purchased: state.order.purchased
     }
 }
 
-export default connect(mapStateToProps) (CheckOut);
+
+export default connect( mapStateToProps ) ( CheckOut );
