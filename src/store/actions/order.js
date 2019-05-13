@@ -1,7 +1,8 @@
+
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
 
-export const purchaseBurgerSuccess = (id, orderData) => {
+export const purchaseBurgerSuccess = ( id, orderData ) => {
     return {
         type: actionTypes.PURCHASE_BURGER_SUCCESS,
         orderId: id,
@@ -9,7 +10,7 @@ export const purchaseBurgerSuccess = (id, orderData) => {
     }
 }
 
-export const purchaseBurgerFail = (error) => {
+export const purchaseBurgerFail = ( error ) => {
     return {
         type: actionTypes.PURCHASE_BURGER_FAIL,
         error: error
@@ -22,15 +23,15 @@ export const purchaseBurgerStart = () => {
     }
 } 
 
-export const purchaseBurger = (orderData) => {
+export const purchaseBurger = ( orderData, token ) => {
     return dispatch => {
         dispatch(purchaseBurgerStart());
-        axios.post('/orders.json', orderData)
+        axios.post('/orders.json?auth=' + token, orderData)
                 .then(response => {
                     dispatch(purchaseBurgerSuccess(response.data.name,orderData))
                 })
                 .catch(error => {
-                    purchaseBurgerFail(error)
+                    dispatch(purchaseBurgerFail(error))
                 }); 
     }
 
@@ -42,14 +43,14 @@ export const purchaseInit = () => {
     }
 }
 
-export const fetchOrdersSuccess = (orders) => {
+export const fetchOrdersSuccess = ( orders ) => {
     return {
         type: actionTypes.FETCH_ORDERS_SUCCESS,
         orders: orders
     }
 }
 
-export const fetchOrdersFail = (error) => {
+export const fetchOrdersFail = ( error ) => {
     return {
         type: actionTypes.FETCH_ORDERS_FAIL,
         error: error
@@ -62,10 +63,10 @@ export const fetchOrdersStart = () => {
     }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = ( token ) => {
     return dispatch => {
         dispatch(fetchOrdersStart());
-        axios.get( '/orders.json' )
+        axios.get( '/orders.json?auth=' + token )
             .then(res => {
                 const fetchedOrders = [];
                 for ( let key in res.data ) {
@@ -77,7 +78,8 @@ export const fetchOrders = () => {
                 dispatch(fetchOrdersSuccess(fetchedOrders));
             })
             .catch(error => {
-                fetchOrdersFail(error)
+                dispatch(fetchOrdersFail(error));
             });
     }
 }
+

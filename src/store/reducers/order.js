@@ -60,7 +60,8 @@ const reducer = (state = initialState, action) => {
             return fetchOrdersSuccess( state, action )
         case actionTypes.FETCH_ORDERS_FAIL:
             return fetchOrdersFail( state, action )
-        default: 
+        default:
+            console.log("from default");
             return state;
     }
 };
