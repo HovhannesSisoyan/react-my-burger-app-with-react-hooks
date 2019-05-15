@@ -7,15 +7,13 @@ import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSumm
 
 class CheckOut extends React.Component {
 
- 
-
     checkOutCancelledHandler = () => {
         this.props.history.goBack();
-    }
+    };
 
     checkOutContinuedHandler = () => {
         this.props.history.replace('/checkout/contact-data')
-    }
+    };
 
     render () {
         let summary = <Redirect to="/"/>
@@ -33,10 +31,10 @@ class CheckOut extends React.Component {
                     component={ContactData} />
                 </div>
             )
-        }
+        };
         return summary;
-    }
-}
+    };
+};
 
 const mapStateToProps = state => {
     return {
