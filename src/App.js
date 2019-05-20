@@ -1,13 +1,23 @@
 import React from 'react';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import CheckOut from './containers/CheckOut/CheckOut';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import Orders from './containers/Orders/Orders';
-import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
+import asyncComponent from './hoc/asyncComponent/asyncComponent';
+
+const asyncCheckOut = asyncComponent(() => {
+    return import ('./containers/CheckOut/CheckOut');
+});
+
+const asyncOrders = asyncComponent(() => {
+    return import ('./containers/Orders/Orders');
+});
+
+const asyncAuth = asyncComponent(() => {
+    return import ('./containers/Auth/Auth');
+});
 
 class App extends React.Component {
 
@@ -18,7 +28,7 @@ class App extends React.Component {
     render() {
         let routes = (
             <Switch>
-                <Route path="/auth" component={Auth}/>
+                <Route path="/auth" component={asyncAuth}/>
                 <Route path="/" exact component={BurgerBuilder}/>
                 <Redirect to="/" />
             </Switch>
@@ -26,10 +36,10 @@ class App extends React.Component {
         if (this.props.isAuthenticated) {
             routes = (
                 <Switch>
-                    <Route path="/checkout" component={CheckOut}/>
-                    <Route path="/orders" component={Orders}/>
+                    <Route path="/checkout" component={asyncCheckOut}/>
+                    <Route path="/orders" component={asyncOrders}/>
                     <Route path="/logout" component={Logout}/>
-                    <Route path="/auth" component={Auth}/>
+                    <Route path="/auth" component={asyncAuth}/>
                     <Route path="/" exact component={BurgerBuilder}/>
                     <Redirect to="/" />
                 </Switch>
